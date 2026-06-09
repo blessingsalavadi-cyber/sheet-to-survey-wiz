@@ -198,7 +198,7 @@ export const parseExcel = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<ParsedForm> => {
     const buf = Buffer.from(data.fileBase64, "base64");
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(buf);
+    await workbook.xlsx.load(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer);
 
     const lookups = new Map<string, string[]>();
     const lookupSections: { name: string; values: string[] }[] = [];
